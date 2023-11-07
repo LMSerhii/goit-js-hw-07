@@ -37,14 +37,23 @@ function onGalleryElement(event) {
   }
 
   const instance = basicLightbox.create(
-    `<img src="${originalUrl}" width="1200">`
+    `<img src="${originalUrl}" width="1200">`,
+    {
+      onShow: (instance) => {
+        galleryElement.addEventListener("keydown", handleGalleryElement);
+      },
+
+      onClose: (instance) => {
+        galleryElement.removeEventListener("keydown", handleGalleryElement);
+      },
+    }
   );
 
   instance.show();
 
-  galleryElement.addEventListener("keydown", (event) => {
+  function handleGalleryElement(event) {
     if (event.code === "Escape") {
       instance.close();
     }
-  });
+  }
 }
